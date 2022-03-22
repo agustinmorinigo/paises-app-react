@@ -1,0 +1,35 @@
+#cards-container {
+
+    min-height: 300px;
+
+    .card > .d-block {
+        height: auto !important;
+        max-height: 180px;
+    }
+    
+    .container-fluid .row .col-12 {
+        width: 100% !important;
+    }
+    
+    .pagination {
+        display: none !important;
+    }
+    
+}
+
+@media ( min-width: 993px ) {
+    
+    #cards-container {
+
+        .card > .d-block {
+            height: 150px !important;
+            max-height: none;
+        }
+    
+        .container-fluid .row .col-12 {
+            width: 50% !important;
+        }
+        
+    }
+    
+}

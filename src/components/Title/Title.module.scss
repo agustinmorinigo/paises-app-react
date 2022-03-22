@@ -1,0 +1,11 @@
+.title {
+    letter-spacing: 2px;
+}
+
+@media ( min-width: 993px ) {
+    
+    .title {
+        letter-spacing: 5px;
+    }
+    
+}
