@@ -1,5 +1,3 @@
-import queryString from 'query-string';
-
 export const goToTop = () => {
   window.scroll({
     top: 0,
@@ -228,21 +226,16 @@ export const getSortCountries = (search, listCountries) => {
   const { q, order } = search;
   let newList = [ ...listCountries ];
 
-  // console.log('hola', q, order);
-  
   if( !q && !order ) {
-    console.log( 'Entró en !q && !order' );
     return newList;
   }
 
   if( q ) {
-    console.log( 'Entró en q' );
     newList = newList?.filter( country => country.name?.common.trim().toLowerCase().includes(q) )
   }
 
   if( order ) {
-    console.log( 'Entró en order' );
-    
+
     switch( order ) {
       case 'a-to-z':             return newList.sort( sortByAZ );
       case 'z-to-a':             return newList.sort( sortByZA );
@@ -254,23 +247,7 @@ export const getSortCountries = (search, listCountries) => {
     }
   }
 
-  console.log( newList );
-  
   return newList;
-  
-  // PRIMERO FILTRO LOS PAÍSES POR EL Q Y DESPUÉS LOS ORDENO POR EL ORDER.
-  
-  // const countries = [ ...listCountries ];    
-  
-  // switch( order ) {
-  //   case 'a-to-z':             return countries.sort( sortByAZ );
-  //   case 'z-to-a':             return countries.sort( sortByZA );
-  //   case 'smaller-population': return countries.sort( sortBySmallerPopulation );
-  //   case 'higher-population':  return countries.sort( sortByHigherPopulation );
-  //   case 'smaller-area':       return countries.sort( sortBySmallerArea );
-  //   case 'higher-area':        return countries.sort( sortByHigherArea );
-  //   default:                   return countries;
-  // }
   
 }
 
@@ -283,14 +260,3 @@ export const orderOptions = [
   { text: 'Menor territorio', value: 'smaller-area' },
   { text: 'Mayor territorio', value: 'higher-area' }
 ];
-
-export const getNewLocation = ( order, searchLocation ) => {
-  order = reset(order);
-  return `?${ queryString.stringify({ ...searchLocation, order }) }`;
-}
-
-// export const updateList = ( search ) => {
-
-//   console.log( search, 'Actualizar listado.' );
-  
-// }

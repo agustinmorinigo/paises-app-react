@@ -1,52 +1,27 @@
-import { useEffect, useState } from 'react';
-// import debounce from 'lodash.debounce';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import debounce from 'lodash.debounce';
+import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
-import { getSortCountries, updateList } from 'helpers';
+import { useUpdateList } from 'hooks/useUpdateList';
+import { useRunNavigate } from 'hooks/useRunNavigate';
 
 // https://www.freecodecamp.org/news/debounce-and-throttle-in-react-with-hooks/
-export const ListSearcher = ({ theme, listCountries, setListCountries, initialCountries }) => {
+export const ListSearcher = ({ theme, setListCountries, initialCountries }) => {
 
-    const navigate = useNavigate();
     const location = useLocation();
     const { q = '' } = queryString.parse( location.search );
     const [ term, setTerm ] = useState( q );
+
+    useRunNavigate( term.trim(), 'q' );
+    useUpdateList( q, initialCountries, setListCountries );
 
     const handleInputChange = e => {
         // FALTA AGREGAR EL DEBOUNCE.
         const value = e.target.value.toLowerCase();
         setTerm( value );
-
-        // REPITE.
-        const search = queryString.parse(location.search);
-        const { q, ...allParams } = search; // ...allParams trae todos los params excepto q
-        const newQuery = queryString.stringify({ ...allParams, ...( !!value && {q: value.trim()} ) });
-        navigate( `?${ newQuery }` );
-        // REPITE.
+        // const debouncedSave = debounce(() => saveToDb(nextValue), 1000);
+		// debouncedSave();
     }
-
-    useEffect( () => {
-        
-        // ACÁ TENGO QUE VOLVER A EJECUTAR LA FUNCIÓN DE ORDEN.
-        // console.log( q );
-        // console.log( initialCountries?.filter( c => c.name?.common.trim().toLowerCase().includes(q) ) );
-        // console.log( 'Se ejecutó el effect del Input.' );
-
-        // ( q === '' )
-        //     ? setListCountries( [...initialCountries] )
-        //     : setListCountries( initialCountries?.filter( c => c.name?.common.trim().toLowerCase().includes(q) ) );
-
-        // console.log( q );
-        // updateList( location.search );
-
-
-
-        // getSortCountries( queryString.parse( location.search ), initialCountries );
-        setListCountries( getSortCountries( queryString.parse( location.search ), initialCountries ) );
-        
-    }, [ q ] );
-
-
 
     return (
         <input

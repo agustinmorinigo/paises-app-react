@@ -10,18 +10,6 @@ import queryString from 'query-string';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getCommonCountries } from 'selectors';
 
-const getNewLocation = ( query, searchLocation ) => {
-
-  query = query.trim().toLowerCase();
-  
-  ( query === "" )
-    ? delete searchLocation.q
-    : searchLocation.q = query;
-  
-  return `?${ queryString.stringify(searchLocation) }`;
-  
-}
-
 export const ListContainer = ({ countries }) => { 
 
   const [ listCountries, setListCountries ] = useState( [] );
@@ -40,29 +28,27 @@ export const ListContainer = ({ countries }) => {
       <div className="container-fluid mb-5">
         <div className="row">
 
-          <div className="col-12 col-md-6 mb-4 mb-md-0">
-            {
-              isDone && (
-                <ListSearcher
-                  theme={ theme } 
-                  listCountries={ listCountries }
-                  setListCountries={ setListCountries }
-                  initialCountries={ countries }
-                />
-              )
-            }
-          </div>
-          
-          <div className="col-12 col-md-6">
-            {
-              isDone && (
-                <ListSelect
-                  listCountries={ listCountries }
-                  setListCountries={ setListCountries }
-                />
-              )
-            }
-          </div>
+          {
+            isDone && (
+              <>
+                <div className="col-12 col-md-6 mb-4 mb-md-0">
+                      <ListSearcher
+                        theme={ theme } 
+                        initialCountries={ countries }
+                        setListCountries={ setListCountries }
+                      />
+                </div>
+                
+                <div className="col-12 col-md-6">
+                      <ListSelect
+                        theme={ theme }
+                        listCountries={ listCountries }
+                        setListCountries={ setListCountries }
+                      />
+                </div>
+              </>
+            )
+          }
 
         </div>
       </div>

@@ -1,60 +1,31 @@
-import React, { useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
-import { getNewLocation, getSortCountries, orderOptions, reset, sortCountries, updateList } from 'helpers';
+import { orderOptions } from 'helpers';
+import { useUpdateList } from 'hooks/useUpdateList';
+import { useRunNavigate } from 'hooks/useRunNavigate';
 
 const ListSelect = ({ listCountries, setListCountries }) => {
 
-  const navigate = useNavigate();
   const location = useLocation();
-  const order = useRef( queryString.parse(location.search).order );
-  // const updateList =
-
-  // console.log(location);
+  const { order = '' } = queryString.parse( location.search );
+  const [ value, setValue ] = useState( order );
   
-  useEffect( () => {
+  useRunNavigate( value, 'order' );
+  useUpdateList( order, listCountries, setListCountries );
 
-    ( isValidOrder(order.current) )
-      ? actualizarListado( location.search )
-      : removeOrderParam();
-
-  }, [] );
-
-  const removeOrderParam = () => {
-    
-  }
-
-  const isValidOrder = order => { // ESTO SE EJECUTA EN EL USEFFECT QUE SE EJECUTA 1 SOLA VEZ.
-    order = reset( String(order) );
-    const orderValues = orderOptions.map( ({ value }) => reset(value) );
-    return order && orderValues.includes( order );
-  }
-
-  const actualizarListado = ( newQuery ) => {
-    // getSortCountries( queryString.parse( newQuery ), listCountries );
-    setListCountries( getSortCountries( queryString.parse( newQuery ), listCountries ) );
-  }
-  
-  const runNewSort = orderType => {
-
-    const search = queryString.parse(location.search);
-    const { order, ...allParams } = search; // ...allParams trae todos los params excepto order
-    const newQuery = queryString.stringify({ ...allParams, ...( !!orderType && {order: orderType} ) });
-    navigate( `?${ newQuery }` );
-    actualizarListado( newQuery );
-    // console.log('HOLA.');
-    // updateList( location.search );
-    // useUpdateList();
-
+  const handleSelectChange = e => {
+    const newValue = e.target.value.trim().toLowerCase();
+    setValue( newValue );
   }
 
   return (
     <select 
         className="form-select form-select-lg w-100 animate__animated animate__bounceIn animate__faster"
         aria-label=".form-select-lg"
-        onChange={ e => runNewSort(e.target.value) }
+        onChange={ handleSelectChange }
+        defaultValue={ order }
         style={{ backgroundColor: 'transparent' }}
-        defaultValue={ order.current || '' }
     >
       {
         orderOptions.map( ({ text, value }) => (
