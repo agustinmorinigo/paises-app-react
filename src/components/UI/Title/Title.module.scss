@@ -1,0 +1,12 @@
+.title {
+    transition: color .3s ease;
+    letter-spacing: 2px;
+}
+
+@media ( min-width: 993px ) {
+    
+    .title {
+        letter-spacing: 5px;
+    }
+    
+}

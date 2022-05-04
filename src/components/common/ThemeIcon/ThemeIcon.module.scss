@@ -1,0 +1,22 @@
+.miLabel {
+    margin: 20px 0;
+    width: 25px;
+    height: 25px;
+
+    svg {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+    }
+
+    path {
+        fill: #000;
+    }
+    
+}
+
+.miDark {
+    svg path {
+        fill: #cdcdcd !important;
+    }
+}

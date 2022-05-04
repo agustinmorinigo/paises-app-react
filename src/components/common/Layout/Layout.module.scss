@@ -1,0 +1,11 @@
+.mainColor {
+    transition: background-color .3s ease;
+
+    &.light {
+        background-color: #e5e5e5;
+    }
+
+    &.dark {
+        background-color: #000;
+    }
+}

@@ -1,10 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+import { ThemeIcon } from '../ThemeIcon/ThemeIcon';
+import { SearchForm } from '../SearchForm/SearchForm';
+import { continents, languages } from 'data';
 import styles from './Navbar.module.scss';
+import { ThemeContext } from 'contexts/ThemeContext';
+import { useContext } from 'react';
 
 export const Navbar = () => {
 
+  const { theme } = useContext( ThemeContext );
+  
   return (
-    <nav className="navbar fixed-top navbar-expand-md navbar-dark bg-dark p-4">
+    <nav className={ `navbar navbar-expand-md p-4 fixed-top ${ theme === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }` }> 
       <div className="container-fluid">
 
         <NavLink className="navbar-brand" to="/">Countries App</NavLink>
@@ -32,46 +39,18 @@ export const Navbar = () => {
               </span>
               <ul className="dropdown-menu" aria-labelledby="continents-dropdown">
 
-                <li>
-                  <NavLink 
-                    className={({ isActive }) => 'dropdown-item ' + (isActive ? `${ styles.subActive }` : '')}
-                    to="continent/americas"
-                  >
-                    América
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink 
-                    className={({ isActive }) => 'dropdown-item ' + (isActive ? `${ styles.subActive }` : '')}
-                    to="continent/europe"
-                  >
-                    Europa
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink 
-                    className={({ isActive }) => 'dropdown-item ' + (isActive ? `${ styles.subActive }` : '')}
-                    to="continent/africa"
-                  >
-                    África
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink 
-                    className={({ isActive }) => 'dropdown-item ' + (isActive ? `${ styles.subActive }` : '')}
-                    to="continent/asia"
-                  >
-                    Asia
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink 
-                    className={({ isActive }) => 'dropdown-item ' + (isActive ? `${ styles.subActive }` : '')}
-                    to="continent/oceania"
-                  >
-                    Oceanía
-                  </NavLink>
-                </li>
+                {
+                  continents.map( ({ name, route }) => (
+                    <li key={ route }>
+                      <NavLink
+                        className={({ isActive }) => 'dropdown-item ' + (isActive ? `${styles.subActive}` : '')}
+                        to={ route }
+                      >
+                        { name }
+                      </NavLink>
+                    </li>
+                  ) )
+                }
 
               </ul>
             </li>
@@ -81,47 +60,30 @@ export const Navbar = () => {
                 Idiomas
               </span>
               <ul className="dropdown-menu" aria-labelledby="languages-dropdown">
-                <li>
-                  <NavLink 
-                    className={({ isActive }) => 'dropdown-item ' + (isActive ? `${ styles.subActive }` : '')}
-                    to="/language/spa"
-                  >
-                    Español
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink 
-                    className={({ isActive }) => 'dropdown-item ' + (isActive ? `${ styles.subActive }` : '')}
-                    to="/language/eng"
-                  >
-                    Inglés
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink 
-                    className={({ isActive }) => 'dropdown-item ' + (isActive ? `${ styles.subActive }` : '')}
-                    to="/language/fra"
-                  >
-                    Francés
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink 
-                    className={({ isActive }) => 'dropdown-item ' + (isActive ? `${ styles.subActive }` : '')}
-                    to="/language/zho"
-                  >
-                    Chino
-                  </NavLink>
-                </li>
+                
+                {
+                  languages.map( ({ name, route }) => (
+                    <li key={ route }>
+                      <NavLink
+                        className={({ isActive }) => 'dropdown-item ' + (isActive ? `${styles.subActive}` : '')}
+                        to={ route }
+                      >
+                        { name }
+                      </NavLink>
+                    </li>
+                  ) )
+                }
+                
               </ul>
+            </li>
+
+            <li className={ `nav-item m-md-0 mx-md-4 d-md-flex justify-content-md-center align-items-md-center` }>
+              <ThemeIcon />
             </li>
 
           </ul>
 
-          <form className="d-flex" noValidate autoComplete="off">
-            <input className="form-control me-2" type="search" placeholder="Buscar país..." aria-label="Search" />
-            <button className="btn btn-warning" type="submit">Buscar</button>
-          </form>
+          <SearchForm />
 
         </div>
 

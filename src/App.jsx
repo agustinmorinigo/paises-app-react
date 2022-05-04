@@ -1,11 +1,14 @@
-import { AppRouter } from 'components/routers/AppRouter';
-import CountriesProvider from 'context/CountriesContext';
+import { AppRouter }     from 'routes/Root';
+import CountriesProvider from 'contexts/CountriesContext';
+import ThemeProvider     from 'contexts/ThemeContext';
 
 const App = () => {
 
   return (
     <CountriesProvider>
-      <AppRouter />
+      <ThemeProvider>
+        <AppRouter />
+      </ThemeProvider>
     </CountriesProvider>
   );
 

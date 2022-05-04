@@ -6,7 +6,7 @@ export const useGetAsyncData = ( url, dependency  = null ) => {
 
     useEffect( () => {
 
-        setData( null ); // Para que se muestre el spinner al cambiar seleccionar otro continente.
+        setData( null );
         let isSubscribed = true;
     
         fetch( url )
