@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import debounce from 'lodash.debounce';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useUpdateList } from 'hooks/useUpdateList';
 import { useRunNavigate } from 'hooks/useRunNavigate';
+import debounce from 'lodash.debounce';
 
-// https://www.freecodecamp.org/news/debounce-and-throttle-in-react-with-hooks/
 export const ListSearcher = ({ theme, setListCountries, initialCountries }) => {
 
     const location = useLocation();
@@ -13,14 +12,14 @@ export const ListSearcher = ({ theme, setListCountries, initialCountries }) => {
     const [ term, setTerm ] = useState( q );
 
     useRunNavigate( term.trim(), 'q' );
-    useUpdateList( q, initialCountries, setListCountries );
+    useUpdateList( q, initialCountries, setListCountries, 2000 );
 
     const handleInputChange = e => {
-        // FALTA AGREGAR EL DEBOUNCE.
         const value = e.target.value.toLowerCase();
         setTerm( value );
-        // const debouncedSave = debounce(() => saveToDb(nextValue), 1000);
-		// debouncedSave();
+
+        // const debouncedSave = debounce(() => console.log( 'Delay run' ), 2000);
+        // debouncedSave();
     }
 
     return (
