@@ -18,7 +18,7 @@ export const Layout = () => {
         className={ `page-container text-dark h-100 mb-5 ${styles.mainColor} ${ styles[theme] }` }
         style={{ paddingTop: '96px' }}
       >
-          <div className="w-75 mx-auto h-100 overflow-hidden">
+          <div className={ `w-75 mx-auto h-100 overflow-hidden ${ styles.outlet }` }>
             <Outlet />
           </div>
       </main>

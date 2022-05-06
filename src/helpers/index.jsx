@@ -221,6 +221,20 @@ export const sortByHigherArea = ({ area: area1 }, { area: area2 }) => {
   return ( area1 < area2 ) ? 1 : -1;
 }
 
+export const ejecutarOrden = ( order, list ) => {
+
+  switch( order ) {
+    case 'a-to-z':             return list.sort( sortByAZ );
+    case 'z-to-a':             return list.sort( sortByZA );
+    case 'smaller-population': return list.sort( sortBySmallerPopulation );
+    case 'higher-population':  return list.sort( sortByHigherPopulation );
+    case 'smaller-area':       return list.sort( sortBySmallerArea );
+    case 'higher-area':        return list.sort( sortByHigherArea );
+    default:                   return list;
+  }
+  
+}
+
 export const getSortCountries = (search, listCountries) => {
 
   const { q, order } = search;
@@ -235,16 +249,7 @@ export const getSortCountries = (search, listCountries) => {
   }
 
   if( order ) {
-
-    switch( order ) {
-      case 'a-to-z':             return newList.sort( sortByAZ );
-      case 'z-to-a':             return newList.sort( sortByZA );
-      case 'smaller-population': return newList.sort( sortBySmallerPopulation );
-      case 'higher-population':  return newList.sort( sortByHigherPopulation );
-      case 'smaller-area':       return newList.sort( sortBySmallerArea );
-      case 'higher-area':        return newList.sort( sortByHigherArea );
-      default:                   return newList;
-    }
+    ejecutarOrden( order, newList );
   }
 
   return newList;

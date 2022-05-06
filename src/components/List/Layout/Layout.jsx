@@ -9,7 +9,7 @@ export const ListLayout = ({ countries }) => {
         <div className="row">
           {
             countries.map( country => (
-              <div className="col-12 col-md-6 col-lg-4 mb-4" key={ country.cca3 }>
+              <div className="col-12 col-md-6 col-lg-4 col-xxl-3 mb-4" key={ country.cca3 }>
                 <Card { ...country } />
               </div>
             ) )

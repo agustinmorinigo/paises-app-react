@@ -13,6 +13,7 @@ export const ListPagination = ({ listCountries, setCurrentCountries, theme }) =>
         const endOffset = itemOffset + itemsPerPage;
         setCurrentCountries( listCountries.slice(itemOffset, endOffset) );
         setPageCount( Math.ceil(listCountries.length / itemsPerPage) );
+
     
     }, [itemOffset, listCountries, setCurrentCountries] );
     
@@ -22,7 +23,7 @@ export const ListPagination = ({ listCountries, setCurrentCountries, theme }) =>
     };
 
     return (
-        listCountries.length > itemsPerPage && 
+        listCountries.length > 0 &&
         <ReactPaginate
             nextLabel=""
             breakLabel="..."

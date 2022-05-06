@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useUpdateList } from 'hooks/useUpdateList';
 import { useRunNavigate } from 'hooks/useRunNavigate';
-import debounce from 'lodash.debounce';
+// import debounce from 'lodash.debounce';
 
 export const ListSearcher = ({ theme, setListCountries, initialCountries }) => {
 
@@ -17,9 +17,6 @@ export const ListSearcher = ({ theme, setListCountries, initialCountries }) => {
     const handleInputChange = e => {
         const value = e.target.value.toLowerCase();
         setTerm( value );
-
-        // const debouncedSave = debounce(() => console.log( 'Delay run' ), 2000);
-        // debouncedSave();
     }
 
     return (

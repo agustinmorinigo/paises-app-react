@@ -1,0 +1,23 @@
+.formContainer {
+    position: relative;
+}
+
+.searchResult {
+    background-color: #FFF;
+    position: absolute;
+    top: calc( 100% + 8px );
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+
+    & > div {
+        // background-color: green;
+        margin: 0;
+    }
+
+    & > p {
+        // background-color: orange;
+        margin: 0;
+    }
+}

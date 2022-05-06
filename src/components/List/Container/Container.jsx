@@ -5,15 +5,11 @@ import { ListPagination } from '../Pagination/Pagination';
 import ListSelect from '../Select/Select';
 import { ListSearcher } from '../Searcher/Searcher';
 import { Spinner } from 'components/UI/Spinner/Spinner';
-import { Card } from 'components/Common/Card/Card';
-import queryString from 'query-string';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { getCommonCountries } from 'selectors';
 
 export const ListContainer = ({ countries }) => { 
 
   const [ listCountries, setListCountries ] = useState( [] );
-  // const [ currentCountries, setCurrentCountries ] = useState( null );
+  const [ currentCountries, setCurrentCountries ] = useState( null );
   const { theme } = useContext( ThemeContext );
   const [ isDone, setIsDone ] = useState( false );
 
@@ -31,7 +27,7 @@ export const ListContainer = ({ countries }) => {
           {
             isDone && (
               <>
-                <div className="col-12 col-md-6 mb-4 mb-md-0">
+                <div className="col-12 col-md-6 col-xxl-5 mb-4 mb-md-0">
                       <ListSearcher
                         theme={ theme } 
                         initialCountries={ countries }
@@ -39,7 +35,7 @@ export const ListContainer = ({ countries }) => {
                       />
                 </div>
                 
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-6 col-xxl-5 ms-xxl-auto">
                       <ListSelect
                         theme={ theme }
                         listCountries={ listCountries }
@@ -55,14 +51,17 @@ export const ListContainer = ({ countries }) => {
 
       {
         listCountries?.length > 0 ? (
-          // <ListLayout countries={ currentCountries } />
-          <ListLayout countries={ listCountries } />
+          <ListLayout countries={ currentCountries } />
         ) : (
           <p>¡No hay resultados para mostrar!</p>
         )
       }
     
-      {/* <ListPagination theme={ theme } listCountries={ listCountries } setCurrentCountries={ setCurrentCountries } /> */}
+      <ListPagination 
+        theme={ theme } 
+        listCountries={ listCountries } 
+        setCurrentCountries={ setCurrentCountries } 
+      />
       
     </>
   ) : (
