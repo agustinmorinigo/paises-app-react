@@ -1,25 +1,33 @@
 import { ejecutarOrden } from "helpers";
 import { useDebounce } from "hooks/useDebounce";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import queryString from 'query-string';
 import styles from './SearchForm.module.scss';
+import { useRunNavigate } from "hooks/useRunNavigate";
 
 export const SearchForm = () => {
 
-    // LA INFORMACIÓN DE ESTE COMPONENTE DEBE SER PERSISTENTE TAMBIÉN.
     // Los botones "buscar" y "ver todos" van a apuntar a un mismo lugar "search" o algo así.
     // Mejorar el código de este componente.
+    // Pensar bien el nombre de este query "search", el de "q" y el de la vista de search/ porque los 3 son parecidos. Tienen que distinguirse bien.
 
-    const [ term, setTerm ] = useState( '' );
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { search = '' } = queryString.parse( location.search );
+    const [ term, setTerm ] = useState( search );
     const [ results, setResults ] = useState( null );
     const [ showModal, setShowModal ] = useState( false );
     const debouncedTerm = useDebounce( term, 500 );
+    const formRef = useRef(null);
+
+    useRunNavigate( term, 'search' );
     
     useEffect( () => {
-        setShowModal( true );
         ( term === '' ) ? setResults( null ) : realizarFetch();
-    }, [debouncedTerm] );
+    }, [ debouncedTerm ] );
 
+    // FUNCIONES COMUNES.
     const realizarFetch = async () => {
         
         try {
@@ -41,12 +49,25 @@ export const SearchForm = () => {
     const ejecutarBlur = () => {
         setTimeout( () => setShowModal( false ), 100 );
     }
+    // FUNCIONES COMUNES.
+
+    const goToSearchPage = e => {
+
+        // PREGUNTAR QUE EL INPUT NO SEA VACÍO. SI ENVÍO NÚMEROS O SÍMBOLOS QUE NO SON LETRAS, HACE ALGO RARO EL FORM. FIRJAME ESO. o no
+
+        e.preventDefault();
+
+        if( term === '' ) return;        
+        setTerm( '' );
+        navigate( `search/${ term }` ); // FALTA AGREGARLE EL PARÁMETRO DE BÚSQUEDA.
+        
+    }
     
     return (
 
         <div className={ `d-flex ${ styles.formContainer }` }>
 
-            <form className="d-flex" noValidate autoComplete="off">
+            <form ref={formRef} className="d-flex" noValidate autoComplete="off" onSubmit={ goToSearchPage }>
                 <input
                     className="form-control me-2"
                     type="search"
@@ -78,6 +99,7 @@ export const SearchForm = () => {
                                                     key={ cca3 }
                                                     className="bg-dark mb-2 p-2 rounded-2 overflow-hidden d-flex justify-content-between align-items-center text-decoration-none"
                                                     to={ `/country/${ cca3 }` }
+                                                    onClick={ e => setShowModal( false ) }
                                                 >
                                                     <div className="country-info d-flex justify-content-center align-items-center">
                                                         <img 
@@ -94,7 +116,13 @@ export const SearchForm = () => {
                                         }
                                     </div>
 
-                                    <button type="button" className="btn btn-warning d-block w-100">Ver todos</button>
+                                    <button 
+                                        type="button"
+                                        className="btn btn-warning d-block w-100"
+                                        onClick={ goToSearchPage }
+                                    >
+                                        Ver todos
+                                    </button>
                                 </div>
                             )
                         }
